@@ -24,7 +24,7 @@ def main(new):
   X_train = vectorizer.fit_transform(corpus)
   y_train = np.array(y)
   data = vectorizer.fit_transform(new)
-  clf = (LinearSVC(), "LogisticRegression")
+  clf = (LinearSVC(), "SVM")
   # print Corups
   test(clf, X_train, y_train, data)
 
