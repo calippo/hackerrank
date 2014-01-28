@@ -2,6 +2,8 @@ from sklearn.svm import LinearSVC, SVC, SVR
 from sklearn.linear_model import LogisticRegression
 from sklearn.naive_bayes import BernoulliNB
 from sklearn import metrics
+from sklearn.metrics import roc_curve, auc
+
 import numpy as np
 
 from sklearn.feature_extraction.text import HashingVectorizer
@@ -31,8 +33,6 @@ def main():
   data = corpus[N:]
   y_train = y[:N]
   y_test = y[N:]
-  print len(data)
-  print len(corpus)
   # vectorizer = CountVectorizer(tokenizer=LemmaTokenizer(), stop_words='english', lowercase=True)
   vectorizer = HashingVectorizer(non_negative=True, analyzer='word')
   # vectorizer = TfidfVectorizer(sublinear_tf=True, max_df=0.5,)
@@ -40,21 +40,34 @@ def main():
   data_test = vectorizer.transform(data)
   y_train = np.array(y_train)
   y_test = np.array(y_test)
-  clfs = [(LinearSVC(), "LinearSVC"),\
-          (LinearSVC(C=2), "LinearSVC"),\
-          (LinearSVC(C=3), "LinearSVC"),\
-          (LinearSVC(C=5), "LinearSVC"),\
-          (LogisticRegression(), "LogisticRegression ")]  # new = vectorizer.transform(corpus[len(corpus)/2::])
-  # y_new = y[len(y)/2::]
-  # print Corups
-  for c in clfs:
-    test(c, X_train, y_train, data_test, y_test)
+
+  # Run classifier
+  classifier = SVC(kernel='linear', probability=True, random_state=0)
+  probas_ = classifier.fit(X_train, y_train).predict_proba(data_test)
+
+  # Compute ROC curve and area the curve
+  fpr, tpr, thresholds = roc_curve(y_test, probas_[:, 1])
+  roc_auc = auc(fpr, tpr)
+  print("Area under the ROC curve : %f" % roc_auc)
+
+  # Plot ROC curve
+  pl.clf()
+  pl.plot(fpr, tpr, label='ROC curve (area = %0.2f)' % roc_auc)
+  pl.plot([0, 1], [0, 1], 'k--')
+  pl.xlim([0.0, 1.0])
+  pl.ylim([0.0, 1.0])
+  pl.xlabel('False Positive Rate')
+  pl.ylabel('True Positive Rate')
+  pl.title('Receiver operating characteristic example')
+  pl.legend(loc="lower right")
+  pl.show()
 
 def test(c, X_train, y_train, data_test, y_test):
   clf = c[0]
   clf.fit(X_train, y_train)
   pred = clf.predict(data_test)
   print_confusion_matrix(y_test, pred)
+
   scores = cross_validation.cross_val_score(clf, X_train, y_train, cv=5)
   # print c[1] + " Accuracy: %0.2f (+/- %0.2f)" % (scores.mean(), scores.std() / 2)
   # kf = KFold(len(y_train), n_folds=10, indices=False)

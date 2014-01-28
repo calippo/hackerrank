@@ -2,6 +2,7 @@ import json
 from sklearn import cross_validation
 from sklearn.linear_model import LogisticRegression
 from sklearn.svm import LinearSVC
+from sklearn.ensemble import RandomForestClassifier
 from sklearn.feature_extraction.text import HashingVectorizer
 import numpy as np
 
@@ -31,7 +32,7 @@ def main(data):
   y_train = np.array(popTopics(y_train))
   X_test = vectorizer.fit_transform(test)
   C = 1
-  clfs = [(LogisticRegression(),"LR")]
+  clfs = [(RandomForestClassifier(),"LR")]
   for i in range(20):
     C = C + 0.05
     clfs.append((LinearSVC(C=C), "C="+str(C)))
