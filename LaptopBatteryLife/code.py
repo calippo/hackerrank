@@ -1,8 +1,8 @@
 from sklearn.linear_model import LinearRegression
 import matplotlib.pyplot as pl
 import numpy as np
-
 import sys
+
 data = float(sys.stdin.readline())
 
 f = open("trainingdata.txt", "r")

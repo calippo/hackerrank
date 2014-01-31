@@ -11,10 +11,7 @@ def printSentenceElementsNumber(sentence):
   an_num = num_of_articles("an")
   the_num = num_of_articles("the")
   dates_num = num_of_dates(sentence)
-  print a_num
-  print an_num
-  print the_num
-  print dates_num
+  print a_num + "\n" + an_num + "\n" + the_num + "\n" + dates_num
 
 def or_months():
   months = ["January", "February", "March", "April", "May", "June",

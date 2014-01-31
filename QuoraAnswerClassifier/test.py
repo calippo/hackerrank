@@ -1,15 +1,10 @@
-from sklearn.feature_extraction.text import HashingVectorizer
-from sklearn.svm import LinearSVC, SVC, SVR
-from sklearn.linear_model import LogisticRegression
+from sklearn.svm import LinearSVC
 from sklearn import preprocessing
 import numpy as np
 import re as re
 
 names_of_the_users = {}
 def main(X_train, y_train, X_test, names):
-  vectorizer = HashingVectorizer(non_negative=True)
-  # X_train = vectorizer.transform(X_train)
-  # X_test = vectorizer.transform(X_test)
   X_train = np.matrix(X_train)
   X_test = np.matrix(X_test)
   y_train = np.array(y_train)
@@ -29,7 +24,6 @@ def removeNumbers(ds):
   dt = [el.split(" ") for el in ds]
   dt = nameToNum(dt)
   dt = [[float(el) for el in row] for row in dt]
-  # ds = [reduce(lambda x, y: x + " " + y, doc[1::]) for doc in dt]
   return dt
 
 def nameToNum(dt):
