@@ -31,7 +31,6 @@ def printArray(ar):
       arr += " "
   print arr
 
-
 # Tail starts here
 if __name__ == '__main__':
   main()
