@@ -1,3 +1,1 @@
-Hackernews Challenges Solutions
-===============================
-
+#HackerRank Challenges Solutions
