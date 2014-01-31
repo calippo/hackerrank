@@ -40,8 +40,6 @@ def main(data):
     clf[0].fit(X_train, y_train)
     scores = cross_validation.cross_val_score(clf[0], X_train, y_train, cv=5)
     print clf[1] + " Accuracy: %0.5f (+/- %0.5f)" % (scores.mean(), scores.std() / 2)
-  # for question in X_test:
-  #   print findClass(clf.predict(question))
 
 if __name__ == '__main__':
   num = int(raw_input())
